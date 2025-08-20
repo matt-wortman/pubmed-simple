@@ -61,7 +61,7 @@ def search_pubmed(from_date=None, to_date=None):
     params = {
         'db': 'pubmed',
         'term': query,
-        'retmax': 10000,  # Maximum per request
+        'retmax': 100000,  # Try higher limit
         'retmode': 'json',
         'email': email,
         'api_key': api_key
@@ -100,18 +100,29 @@ def search_pubmed(from_date=None, to_date=None):
 
 
 def save_results(pmids, from_date=None, to_date=None):
-    """Save search results to timestamped files."""
+    """Save search results to organized output directory."""
     
     timestamp = datetime.now().strftime("%Y%m%d_%H%M%S")
     
+    # Add year to filename if searching a specific year range
+    year_suffix = ""
+    if from_date and to_date:
+        from_year = from_date.split('/')[0]
+        to_year = to_date.split('/')[0]
+        if from_year == to_year:
+            year_suffix = f"_{from_year}"
+    
+    # Create output directory structure
+    os.makedirs("output/pubmedID", exist_ok=True)
+    
     # Save PMIDs
-    pmid_file = f"pmids_{timestamp}.txt"
+    pmid_file = f"output/pubmedID/pmids_{timestamp}{year_suffix}.txt"
     with open(pmid_file, 'w') as f:
         for pmid in pmids:
             f.write(f"{pmid}\n")
     
-    # Save summary
-    summary_file = f"summary_{timestamp}.txt"
+    # Save summary in main output directory
+    summary_file = f"output/search_summary_{timestamp}{year_suffix}.txt"
     with open(summary_file, 'w') as f:
         f.write(f"Cincinnati Children's PubMed Search Results\n")
         f.write(f"{'='*50}\n")

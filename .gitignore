@@ -4,6 +4,11 @@
 # Output files
 pmids_*.txt
 summary_*.txt
+test_*.txt
+test_*.json
+
+# Output directory
+output/
 
 # Python
 __pycache__/
