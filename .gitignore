@@ -24,3 +24,9 @@ env/
 # OS
 .DS_Store
 Thumbs.db
+
+# Meta-documentation (not part of this tool)
+SIMPLICITY_*.md
+SIMPLE_RULES.md
+simplicity_*.md
+simplicity_*.py
